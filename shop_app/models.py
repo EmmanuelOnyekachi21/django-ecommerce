@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 class Product(models.Model):
@@ -20,6 +21,11 @@ class Product(models.Model):
         including 2 decimal places.
         category (str): The category of the product, chosen from predefined 
         categories.
+    
+    Methods:
+        - __str__(self): Return a string representation of the Product object.
+        - save(self, *args, **kwargs):  Override the save method to generate a unique slug 
+            for the product.
     """
     CATEGORY = (
         ('Electronics', 'ELECTRONICS'),
@@ -45,3 +51,29 @@ class Product(models.Model):
             str: The name of the product.
         """
         return self.name
+
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to generate a unique slug for the product.
+        
+        If no slug is provided, it automatically generates one based on
+        the product's name using the `slugify` function. 
+        The slug is checked for uniqueness,
+        and if it already exists in the database, a counter is appended to it
+        to make it unique.
+        
+        Args:
+            *args: Additional positional arguments passed to the parent save method.
+            **kwargs: Additional keyword arguments passed to the parent save method.
+        """
+        if not self.slug:
+            self.slug = slugify(self.name)
+            unique_slug = self.slug
+            counter = 1
+
+            # Check if the generated slug already exists in the database
+            while Product.objects.filter(slug=unique_slug).exists():
+                unique_slug = f'{self.slug}-{counter}'
+                counter += 1
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
