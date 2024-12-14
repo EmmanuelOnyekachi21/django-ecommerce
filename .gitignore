@@ -21,3 +21,5 @@ Thumbs.db
 .vscode/
 *.log
 *.swp
+shop_app/migrations/
+core/migrations/
