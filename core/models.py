@@ -29,4 +29,7 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
+        """
+        Returns the username of the user.
+        """
         return self.username
