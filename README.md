@@ -37,3 +37,6 @@ It provides an intuitive shopping experience, with features like user authentica
 
 ## API DOCUMENTATION
 (To be added later after API development.)
+
+## CHATGPT NOTES
+[Click here](https://chatgpt.com/c/673f21df-add8-8005-9056-e28988245dcd)
